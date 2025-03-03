@@ -15,7 +15,13 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://msh-asset-system.netlify.app", // ✅ Allow your Netlify frontend
+    methods: "GET, POST, PUT, DELETE", // ✅ Allow necessary methods
+    credentials: true, // ✅ Allow cookies (if needed)
+  })
+);
 
 // Basic Route
 app.get("/", (req, res) => {
