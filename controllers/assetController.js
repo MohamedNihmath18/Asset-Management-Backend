@@ -1,14 +1,50 @@
 const Asset = require("../models/Asset");
 
 
-// 📌 Create Asset
+// // 📌 Create Asset
+// exports.createAsset = async (req, res) => {
+//   try {
+//     const {
+//       equipmentName, assetNo, serialNumber, model, manufacturerName, 
+//       supplierName, supplierContactNo, department, warrantyPeriod, 
+//       warrantyStartDate, ppmFrequency, ppmStartDate, ppmEndDate, poNo, doNo, invoiceNo, 
+//       totalAmount, lifespan, drInchargeName, 
+//       purposeOfEquipment, requestedBy, equipmentType
+//     } = req.body;
+
+//     const documents = {
+//       testingCommissioning: req.files?.testingCommissioning?.[0]?.path || "",
+//       serviceReports: req.files?.serviceReports?.[0]?.path || "",
+//       ppm: req.files?.ppm?.[0]?.path || "",
+//       license: req.files?.license?.[0]?.path || "",
+//       contract: req.files?.contract?.[0]?.path || ""
+//     };
+
+//     const newAsset = new Asset({
+//       equipmentName, assetNo, serialNumber, model, manufacturerName, 
+//       supplierName, supplierContactNo, department, warrantyPeriod, 
+//       warrantyStartDate, ppmFrequency, ppmStartDate, ppmEndDate, poNo, doNo, invoiceNo, 
+//       totalAmount, lifespan, drInchargeName, 
+//       purposeOfEquipment, requestedBy,  equipmentType, documents
+//     });
+
+//     await newAsset.save();
+//     res.status(201).json({ success: true, message: "Asset created successfully", asset: newAsset });
+//   } catch (error) {
+//     res.status(500).json({ success: false, message: "Error creating asset", error: error.message });
+//   }
+// };
+
 exports.createAsset = async (req, res) => {
   try {
+    console.log("📥 Incoming Asset Data:", req.body);
+    console.log("📂 Uploaded Files:", req.files);
+
     const {
-      equipmentName, assetNo, serialNumber, model, manufacturerName, 
-      supplierName, supplierContactNo, department, warrantyPeriod, 
-      warrantyStartDate, ppmFrequency, ppmStartDate, ppmEndDate, poNo, doNo, invoiceNo, 
-      totalAmount, lifespan, drInchargeName, 
+      equipmentName, assetNo, serialNumber, model, manufacturerName,
+      supplierName, supplierContactNo, department, warrantyPeriod,
+      warrantyStartDate, ppmFrequency, ppmStartDate, ppmEndDate, poNo, doNo, invoiceNo,
+      totalAmount, lifespan, drInchargeName,
       purposeOfEquipment, requestedBy, equipmentType
     } = req.body;
 
@@ -21,19 +57,22 @@ exports.createAsset = async (req, res) => {
     };
 
     const newAsset = new Asset({
-      equipmentName, assetNo, serialNumber, model, manufacturerName, 
-      supplierName, supplierContactNo, department, warrantyPeriod, 
-      warrantyStartDate, ppmFrequency, ppmStartDate, ppmEndDate, poNo, doNo, invoiceNo, 
-      totalAmount, lifespan, drInchargeName, 
-      purposeOfEquipment, requestedBy,  equipmentType, documents
+      equipmentName, assetNo, serialNumber, model, manufacturerName,
+      supplierName, supplierContactNo, department, warrantyPeriod,
+      warrantyStartDate, ppmFrequency, ppmStartDate, ppmEndDate, poNo, doNo, invoiceNo,
+      totalAmount, lifespan, drInchargeName,
+      purposeOfEquipment, requestedBy, equipmentType, documents
     });
 
     await newAsset.save();
     res.status(201).json({ success: true, message: "Asset created successfully", asset: newAsset });
   } catch (error) {
+    console.error("❌ Error creating asset:", error);
     res.status(500).json({ success: false, message: "Error creating asset", error: error.message });
   }
 };
+
+
 
 // 📌 Get All Assets
 exports.getAllAssets = async (req, res) => {
