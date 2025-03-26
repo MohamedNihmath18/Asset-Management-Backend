@@ -22,6 +22,8 @@ const assetSchema = new mongoose.Schema({
   drInchargeName: { type: String, required: true },
   purposeOfEquipment: { type: String, required: true },
   requestedBy: { type: String, required: true },
+  equipmentType: { type: String, required: true },
+
 
   // File Uploads (Storing file paths)
   documents: {
