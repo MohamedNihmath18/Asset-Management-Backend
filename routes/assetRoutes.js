@@ -5,7 +5,7 @@ const {
   getAssetById, 
   updateAsset, 
   deleteAsset,
-  importAssets 
+  
 } = require("../controllers/assetController");
 
 const upload = require("../middleware/uploadMiddleware"); // Multer file upload middleware
@@ -20,8 +20,7 @@ router.post("/create", upload.fields([
   { name: "contract" }
 ]), createAsset);
 
-// New route for bulk import
-router.post("/import", upload.single("excelFile"), importAssets);
+ 
 
 
 // Get All Assets
