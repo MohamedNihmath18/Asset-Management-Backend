@@ -12,11 +12,11 @@ const assetSchema = new mongoose.Schema({
   warrantyPeriod: { type: String, required: true },
   warrantyStartDate: { type: Date, required: true },
   ppmFrequency: { type: String, required: true },
+  ppmStartDate: { type: Date },  // New field
+  ppmEndDate: { type: Date },    // New field
   poNo: { type: String, required: true },
   doNo: { type: String, required: true },
-  invoiceNo1: { type: String, required: true },
-  invoiceNo2: { type: String },
-  invoiceNo3: { type: String },
+  invoiceNo: { type: String, required: true }, 
   totalAmount: { type: Number, required: true },
   lifespan: { type: String, required: true }, // Changed to Number for calculations
   drInchargeName: { type: String, required: true },

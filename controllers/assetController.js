@@ -6,9 +6,9 @@ exports.createAsset = async (req, res) => {
     const {
       equipmentName, assetNo, serialNumber, model, manufacturerName, 
       supplierName, supplierContactNo, department, warrantyPeriod, 
-      warrantyStartDate, ppmFrequency, poNo, doNo, invoiceNo1, 
-      invoiceNo2, invoiceNo3, totalAmount, lifespan, drInchargeName, 
-      purposeOfEquipment, requestedBy 
+      warrantyStartDate, ppmFrequency, ppmStartDate, ppmEndDate, poNo, doNo, invoiceNo, 
+      totalAmount, lifespan, drInchargeName, 
+      purposeOfEquipment, requestedBy, equipmentType
     } = req.body;
 
     const documents = {
@@ -22,9 +22,9 @@ exports.createAsset = async (req, res) => {
     const newAsset = new Asset({
       equipmentName, assetNo, serialNumber, model, manufacturerName, 
       supplierName, supplierContactNo, department, warrantyPeriod, 
-      warrantyStartDate, ppmFrequency, poNo, doNo, invoiceNo1, 
-      invoiceNo2, invoiceNo3, totalAmount, lifespan, drInchargeName, 
-      purposeOfEquipment, requestedBy, documents
+      warrantyStartDate, ppmFrequency, ppmStartDate, ppmEndDate, poNo, doNo, invoiceNo, 
+      totalAmount, lifespan, drInchargeName, 
+      purposeOfEquipment, requestedBy,  equipmentType, documents
     });
 
     await newAsset.save();
