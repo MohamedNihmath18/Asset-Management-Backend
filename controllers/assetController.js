@@ -43,7 +43,7 @@ exports.createAsset = async (req, res) => {
     const {
       equipmentName, assetNo, serialNumber, model, manufacturerName,
       supplierName, supplierContactNo, department, warrantyPeriod,
-      warrantyStartDate, ppmFrequency, ppmStartDate, ppmEndDate, poNo, doNo, invoiceNo,
+      warrantyStartDate, warrantyEndDate, ppmFrequency, ppmStartDate, ppmEndDate, poNo, doNo, invoiceNo,
       totalAmount, lifespan, drInchargeName,
       purposeOfEquipment, requestedBy, equipmentType
     } = req.body;
@@ -59,7 +59,7 @@ exports.createAsset = async (req, res) => {
     const newAsset = new Asset({
       equipmentName, assetNo, serialNumber, model, manufacturerName,
       supplierName, supplierContactNo, department, warrantyPeriod,
-      warrantyStartDate, ppmFrequency, ppmStartDate, ppmEndDate, poNo, doNo, invoiceNo,
+      warrantyStartDate,  warrantyEndDate, ppmFrequency, ppmStartDate, ppmEndDate, poNo, doNo, invoiceNo,
       totalAmount, lifespan, drInchargeName,
       purposeOfEquipment, requestedBy, equipmentType, documents
     });

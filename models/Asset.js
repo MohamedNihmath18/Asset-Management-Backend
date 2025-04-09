@@ -11,6 +11,7 @@ const assetSchema = new mongoose.Schema({
   department: { type: String, required: true },
   warrantyPeriod: { type: String, required: true },
   warrantyStartDate: { type: Date, required: true },
+  warrantyEndDate: { type: Date, required: true }, 
   ppmFrequency: { type: String, required: true },
   ppmStartDate: { type: Date },  // New field
   ppmEndDate: { type: Date },    // New field
