@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const connectDB = require("./config/db");
+const path = require('path');
  
 
 // Load environment variables
@@ -30,7 +31,8 @@ app.get("/", (req, res) => {
 
 app.use("/api/assets", require("./routes/assetRoutes"));
 app.use("/api/auth", require("./routes/authRoutes"));
-app.use("/uploads", express.static("uploads"));
+// app.use("/uploads", express.static("uploads"));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 
 // Start Server
