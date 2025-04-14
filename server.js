@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const connectDB = require("./config/db");
 const path = require('path');
+const Asset = require("../models/Asset");
  
 
 // Load environment variables
@@ -34,20 +35,20 @@ app.use("/api/auth", require("./routes/authRoutes"));
 // app.use("/uploads", express.static("uploads"));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// 🔽 API to get assets with service reports
-app.get("/api/service-reports", async (req, res) => {
+ 
+// Route to get all service reports
+router.get("/service-reports", async (req, res) => {
   try {
     const assetsWithServiceReports = await Asset.find({
-      "documents.serviceReports": { $exists: true, $ne: "" }
+      "documents.serviceReports": { $ne: null },
     });
 
     res.json(assetsWithServiceReports);
-  } catch (err) {
-    res.status(500).json({ error: "Failed to fetch service reports" });
+  } catch (error) {
+    console.error("Error fetching service reports:", error);
+    res.status(500).json({ message: "Server error" });
   }
 });
-
-
 
 // Start Server
 const PORT = process.env.PORT || 5000;
