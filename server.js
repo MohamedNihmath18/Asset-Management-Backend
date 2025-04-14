@@ -34,6 +34,20 @@ app.use("/api/auth", require("./routes/authRoutes"));
 // app.use("/uploads", express.static("uploads"));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+// 🔽 API to get assets with service reports
+app.get("/api/service-reports", async (req, res) => {
+  try {
+    const assetsWithServiceReports = await Asset.find({
+      "documents.serviceReports": { $exists: true, $ne: "" }
+    });
+
+    res.json(assetsWithServiceReports);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch service reports" });
+  }
+});
+
+
 
 // Start Server
 const PORT = process.env.PORT || 5000;
