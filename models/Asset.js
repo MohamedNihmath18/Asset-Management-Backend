@@ -24,6 +24,12 @@ const assetSchema = new mongoose.Schema({
   purposeOfEquipment: { type: String, required: true },
   requestedBy: { type: String, required: true },
   equipmentType: { type: String, required: true },
+  status: {
+    type: String,
+    enum: ['Available', 'Under Maintenance', 'Disposed'],
+    default: 'Available',
+  },
+  
 
 
   // File Uploads (Storing file paths)

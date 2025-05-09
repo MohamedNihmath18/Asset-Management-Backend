@@ -45,7 +45,7 @@ exports.createAsset = async (req, res) => {
       supplierName, supplierContactNo, department, warrantyPeriod,
       warrantyStartDate, warrantyEndDate, ppmFrequency, ppmStartDate, ppmEndDate, poNo, doNo, invoiceNo,
       totalAmount, lifespan, drInchargeName,
-      purposeOfEquipment, requestedBy, equipmentType
+      purposeOfEquipment, requestedBy, equipmentType, status
     } = req.body;
 
     const documents = {
@@ -61,7 +61,7 @@ exports.createAsset = async (req, res) => {
       supplierName, supplierContactNo, department, warrantyPeriod,
       warrantyStartDate,  warrantyEndDate, ppmFrequency, ppmStartDate, ppmEndDate, poNo, doNo, invoiceNo,
       totalAmount, lifespan, drInchargeName,
-      purposeOfEquipment, requestedBy, equipmentType, documents
+      purposeOfEquipment, requestedBy, equipmentType, status, documents
     });
 
     await newAsset.save();
