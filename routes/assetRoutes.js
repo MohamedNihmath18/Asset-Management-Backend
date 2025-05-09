@@ -5,6 +5,7 @@ const {
   getAssetById, 
   updateAsset, 
   deleteAsset,
+  bulkUploadAssets, // ✅ new controller
   
 } = require("../controllers/assetController");
 
@@ -20,7 +21,8 @@ router.post("/create", upload.fields([
   { name: "contract" }
 ]), createAsset);
 
- 
+// ✅ Bulk Upload route
+router.post("/bulk-upload", bulkUploadAssets);
 
 
 // Get All Assets

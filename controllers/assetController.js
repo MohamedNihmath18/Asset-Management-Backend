@@ -131,4 +131,25 @@ exports.deleteAsset = async (req, res) => {
   } catch (error) {
     res.status(500).json({ success: false, message: "Error deleting asset", error: error.message });
   }
+
+  // 📌 Bulk Uploads
+
+  exports.bulkUploadAssets = async (req, res) => {
+    try {
+      const { assets } = req.body;
+  
+      if (!Array.isArray(assets) || assets.length === 0) {
+        return res.status(400).json({ success: false, message: "No assets provided" });
+      }
+  
+      // Optional: Validate each asset here before saving
+  
+      const inserted = await Asset.insertMany(assets, { ordered: false });
+      res.status(201).json({ success: true, message: "Assets uploaded", data: inserted });
+    } catch (error) {
+      console.error("Bulk upload error:", error);
+      res.status(500).json({ success: false, message: "Failed to upload assets", error: error.message });
+    }
+  };
+
 };
