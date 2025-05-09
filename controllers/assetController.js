@@ -131,6 +131,7 @@ exports.deleteAsset = async (req, res) => {
   } catch (error) {
     res.status(500).json({ success: false, message: "Error deleting asset", error: error.message });
   }
+};
 
   // 📌 Bulk Uploads
 
@@ -152,4 +153,4 @@ exports.deleteAsset = async (req, res) => {
     }
   };
 
-};
+
