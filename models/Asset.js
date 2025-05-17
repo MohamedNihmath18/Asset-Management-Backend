@@ -34,11 +34,11 @@ const assetSchema = new mongoose.Schema({
 
   // File Uploads (Storing file paths)
   documents: {
-    testingCommissioning: { type: String }, 
-    serviceReports: { type: String }, 
-    ppm: { type: String }, 
-    license: { type: String }, 
-    contract: { type: String }
+    testingCommissioning: [{ type: String }], 
+    serviceReports: [{ type: String }], 
+    ppm: [{ type: String }], 
+    license: [{ type: String }], 
+    contract: [{ type: String }]
   }
 }, { timestamps: true });
 

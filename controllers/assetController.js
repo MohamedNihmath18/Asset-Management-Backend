@@ -48,13 +48,22 @@ exports.createAsset = async (req, res) => {
       purposeOfEquipment, requestedBy, equipmentType, status
     } = req.body;
 
+    // const documents = {
+    //   testingCommissioning: req.files?.testingCommissioning?.[0]?.path || "",
+    //   serviceReports: req.files?.serviceReports?.[0]?.path || "",
+    //   ppm: req.files?.ppm?.[0]?.path || "",
+    //   license: req.files?.license?.[0]?.path || "",
+    //   contract: req.files?.contract?.[0]?.path || ""
+    // };
+
     const documents = {
-      testingCommissioning: req.files?.testingCommissioning?.[0]?.path || "",
-      serviceReports: req.files?.serviceReports?.[0]?.path || "",
-      ppm: req.files?.ppm?.[0]?.path || "",
-      license: req.files?.license?.[0]?.path || "",
-      contract: req.files?.contract?.[0]?.path || ""
-    };
+  testingCommissioning: req.files?.testingCommissioning?.map(f => f.path) || [],
+  serviceReports: req.files?.serviceReports?.map(f => f.path) || [],
+  ppm: req.files?.ppm?.map(f => f.path) || [],
+  license: req.files?.license?.map(f => f.path) || [],
+  contract: req.files?.contract?.map(f => f.path) || []
+};
+
 
     const newAsset = new Asset({
       equipmentName, assetNo, serialNumber, model, manufacturerName,
@@ -97,29 +106,80 @@ exports.getAssetById = async (req, res) => {
 };
 
 // 📌 Update Asset
+// exports.updateAsset = async (req, res) => {
+//   try {
+//     const updatedData = req.body;
+
+//     if (req.files) {
+//       updatedData.documents = {
+//         testingCommissioning: req.files?.testingCommissioning?.[0]?.path || "",
+//         serviceReports: req.files?.serviceReports?.[0]?.path || "",
+//         ppm: req.files?.ppm?.[0]?.path || "",
+//         license: req.files?.license?.[0]?.path || "",
+//         contract: req.files?.contract?.[0]?.path || ""
+//       };
+//     }
+
+//     const updatedAsset = await Asset.findByIdAndUpdate(req.params.id, updatedData, { new: true });
+
+//     if (!updatedAsset) return res.status(404).json({ success: false, message: "Asset not found" });
+
+//     res.status(200).json({ success: true, message: "Asset updated successfully", asset: updatedAsset });
+//   } catch (error) {
+//     res.status(500).json({ success: false, message: "Error updating asset", error: error.message });
+//   }
+// };
+
+// 📌 Update Asset (Append documents)
 exports.updateAsset = async (req, res) => {
   try {
-    const updatedData = req.body;
-
-    if (req.files) {
-      updatedData.documents = {
-        testingCommissioning: req.files?.testingCommissioning?.[0]?.path || "",
-        serviceReports: req.files?.serviceReports?.[0]?.path || "",
-        ppm: req.files?.ppm?.[0]?.path || "",
-        license: req.files?.license?.[0]?.path || "",
-        contract: req.files?.contract?.[0]?.path || ""
-      };
+    // 1. Get existing asset
+    const asset = await Asset.findById(req.params.id);
+    if (!asset) {
+      return res.status(404).json({ success: false, message: "Asset not found" });
     }
 
-    const updatedAsset = await Asset.findByIdAndUpdate(req.params.id, updatedData, { new: true });
+    // 2. Prepare updatedData with fields from req.body
+    const updatedData = { ...req.body };
 
-    if (!updatedAsset) return res.status(404).json({ success: false, message: "Asset not found" });
+    // 3. Handle file uploads (append to existing files)
+    const updatedDocuments = {
+      testingCommissioning: [
+        ...(Array.isArray(asset.documents.testingCommissioning) ? asset.documents.testingCommissioning : asset.documents.testingCommissioning ? [asset.documents.testingCommissioning] : []),
+        ...(req.files?.testingCommissioning?.map(file => file.path) || [])
+      ],
+      serviceReports: [
+        ...(Array.isArray(asset.documents.serviceReports) ? asset.documents.serviceReports : asset.documents.serviceReports ? [asset.documents.serviceReports] : []),
+        ...(req.files?.serviceReports?.map(file => file.path) || [])
+      ],
+      ppm: [
+        ...(Array.isArray(asset.documents.ppm) ? asset.documents.ppm : asset.documents.ppm ? [asset.documents.ppm] : []),
+        ...(req.files?.ppm?.map(file => file.path) || [])
+      ],
+      license: [
+        ...(Array.isArray(asset.documents.license) ? asset.documents.license : asset.documents.license ? [asset.documents.license] : []),
+        ...(req.files?.license?.map(file => file.path) || [])
+      ],
+      contract: [
+        ...(Array.isArray(asset.documents.contract) ? asset.documents.contract : asset.documents.contract ? [asset.documents.contract] : []),
+        ...(req.files?.contract?.map(file => file.path) || [])
+      ]
+    };
+
+    updatedData.documents = updatedDocuments;
+
+    // 4. Update the asset
+    const updatedAsset = await Asset.findByIdAndUpdate(req.params.id, updatedData, {
+      new: true,
+    });
 
     res.status(200).json({ success: true, message: "Asset updated successfully", asset: updatedAsset });
   } catch (error) {
+    console.error("Update error:", error);
     res.status(500).json({ success: false, message: "Error updating asset", error: error.message });
   }
 };
+
 
 // 📌 Delete Asset
 exports.deleteAsset = async (req, res) => {
