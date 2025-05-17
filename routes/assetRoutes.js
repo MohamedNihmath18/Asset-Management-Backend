@@ -43,6 +43,8 @@ router.put("/:id", upload.fields([
 // Delete Asset
 router.delete("/:id", deleteAsset);
 
+// ✅ NEW: Delete document route
+router.put("/delete-document/:id", assetController.deleteAssetDocument);
 
 
 module.exports = router;

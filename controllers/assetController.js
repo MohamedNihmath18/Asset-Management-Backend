@@ -213,4 +213,33 @@ exports.deleteAsset = async (req, res) => {
     }
   };
 
+  // 📂 Delete a document from an asset
+exports.deleteAssetDocument = async (req, res) => {
+  const { id } = req.params;
+  const { field, url } = req.body;
+
+  try {
+    const asset = await Asset.findById(id);
+    if (!asset) return res.status(404).json({ message: "Asset not found" });
+
+    const currentFiles = asset.documents?.[field];
+
+    if (!currentFiles || !Array.isArray(currentFiles)) {
+      return res.status(400).json({ message: "Invalid document field or not an array" });
+    }
+
+    // Remove the file URL from the list
+    const updatedFiles = currentFiles.filter((fileUrl) => fileUrl !== url);
+    asset.documents[field] = updatedFiles;
+
+    await asset.save();
+
+    res.json({ success: true, message: "Document deleted", documents: asset.documents });
+  } catch (error) {
+    console.error("Error deleting document:", error);
+    res.status(500).json({ message: "Error deleting document", error: error.message });
+  }
+};
+
+
 
