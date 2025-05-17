@@ -6,6 +6,7 @@ const {
   updateAsset, 
   deleteAsset,
   bulkUploadAssets, // ✅ new controller
+  deleteAssetDocument
   
 } = require("../controllers/assetController");
 
@@ -44,7 +45,7 @@ router.put("/:id", upload.fields([
 router.delete("/:id", deleteAsset);
 
 // ✅ NEW: Delete document route
-router.put("/delete-document/:id", assetController.deleteAssetDocument);
+router.put("/delete-document/:id", deleteAssetDocument);
 
 
 module.exports = router;
